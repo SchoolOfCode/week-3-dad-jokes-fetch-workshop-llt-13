@@ -50,51 +50,48 @@
 //     joke: "Why don't scientists trust atoms? Because they make up everything!",
 //   },
 //   {
-//     id: "E1yH6B",
-//     joke: "What did the grape say when it got stepped on? Nothing, it just let out a little wine!",
-//   },
-// ];
+  //     id: "E1yH6B",
+  //     joke: "What did the grape say when it got stepped on? Nothing, it just let out a little wine!",
+  //   },
+  // ];
 
 // Main function to retrieve and display a new joke
-function getAndDisplayNewJoke() {
-  const joke = getJoke();
-  displayJoke(joke);
-}
+const newJoke = getJoke();
 
+// function getAndDisplayNewJoke() {
+//   displayJoke(newJoke);
+// }
+function getAndDisplayNewJoke() { 
+  getJoke().then(jokeData => { 
+    displayJoke(jokeData); 
+  }); 
+}  
 // Function to update the DOM with the provided joke
-function displayJoke(jokeData) {
-  const jokeElement = document.getElementById("joke");
-  jokeElement.textContent = jokeData[1];
-}
+const jokeElement = document.getElementById("joke");
 
+function displayJoke() {
+  jokeElement.textContent = newJoke;
+}
+    
 // Waits for the DOM to be fully loaded and then displays an initial joke.
 document.addEventListener("DOMContentLoaded", getAndDisplayNewJoke);
-
+    
 // Retrieves the "new joke" button
 const newJokeButton = document.getElementById("newJokeBtn");
-
+    
 // Sets up a click event listener to fetch and display a new joke upon clicking the newJokeButton.
-newJokeButton.addEventListener("click", getJoke);
+newJokeButton.addEventListener("click", getAndDisplayNewJoke);
 
 
 // retrieve joke from api
 async function getJoke () {
-    const joke = await fetch("https://icanhazdadjoke.com", {
-      headers:{
-        Accept: "application/json",
+  const joke = await fetch("https://icanhazdadjoke.com", {
+    headers:{
+      Accept: "application/json",
     },
   }
-  )
-  const jokeData = await joke.json();
-  console.log(jokeData);
-  return jokeData;
-}
-
-getJoke()
-
-
-// set to jokeElement to be displayed in browser
-
-
-
-// set custom User-Agent --> curl -H "User-Agent: My Library (https://github.com/username/repo)" https://icanhazdadjoke.com/
+)
+const jokeData = await joke.json();
+console.log(jokeData.joke);
+return jokeData.joke;
+};
